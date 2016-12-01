@@ -250,7 +250,7 @@ func (a App) LoginWithFb(code string) revel.Result {
 	}
 	username := strings.Split(email, "@")[0]
 	var userfb models.User
-	db := app.GORM.Where("fbid = ? AND email = ? OR username = ?", id, email, username).Find(&userfb)
+	db := app.GORM.Where("fbid = ? AND email = ?", id, email, username).Find(&userfb)
 	if !db.RecordNotFound() {
 		a.Session["user"] = userfb.Username
 		a.RenderArgs["user"] = userfb
@@ -334,12 +334,12 @@ func (c App) LoginWithGplus(code string) revel.Result {
 	plusService := c.GetServicePlus(client)
 	people := c.GetPeoplePlus(plusService)
 	id := people.Id
-	var usr models.User
-	if len(people.Emails) == 0 {
-		c.Flash.Success("Your account does not have email or not shared to people. Check Your account setting")
-		return c.Redirect(routes.App.Login())
+	var email string
+	if len(people.Emails[0]) > 0 {
+		email = people.Emails[0].Value
 	}
-	db := app.GORM.Where("gplusid = ? AND email = ?", id, people.Emails[0].Value).Find(&usr)
+	var usr models.User
+	db := app.GORM.Where("gplusid = ? AND email = ?", id, email).Find(&usr)
 	if !db.RecordNotFound() {
 		c.Session["user"] = usr.Username
 		c.RenderArgs["user"] = usr
