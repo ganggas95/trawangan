@@ -27,15 +27,15 @@
 				</div>
 				<div class="widget leftcontent pad10">
 
-					{{range $key, $value := .services}}
+					{{range $key, $value := .service}}
 					<div class="widget-header">
-						<h3 class="widget-title">{{.Service}}</h3>
+						<h3 class="widget-title"><a href="{{url "Agent.Service" .IdService}}" role="button" style="text-decoration: none;">{{.Service}}</a></h3>
 						<div class="widget-controls" >
 							<div class="btn-group xtra"> <!-- btn dd -->
 										
 								<a href="#" onclick="return false;" class="icon-button dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gear"></i></a>
 								<ul class="dropdown-menu pull-right">
-				                    <li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
+				                    <li><a href="#modalEditService" data-id="{{.IdService}}" data-options="{{.}}" role="button" id="editdialog" data-toggle="modal" data-target="#modalEditService"><i class="fa fa-pencil"></i> Edit</a></li>
 				                    <li><a href="#modalDeleteService" data-id="{{.IdService}}" class="delete-dialog" role="button" data-toggle="modal" data-target="#modalDeleteService"><i class="glyphicon glyphicon-trash"></i> Delete</a> </li>
 				                    <li>
 				                    	{{if eq .Status false }}
@@ -51,6 +51,7 @@
                     					</form>
                     					{{end}}
                      				</li>
+                     				<li><a href="{{url "Agent.Service" .IdService}}" role="button"><i class="glyphicon glyphicon-th-list"></i> Detail</a> </li>
 				                </ul>
 			                </div><!-- /btn dd -->
 		                </div>
@@ -93,4 +94,5 @@
 		</div> <!-- /main -->
 		 {{template "Agent/AddService.html" .}}
 		 {{template "Agent/DeleteService.html" .}}
+		 {{template "Agent/EditService.html" .}}
  {{template "footer.html" .}}

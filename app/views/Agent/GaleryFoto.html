@@ -1,0 +1,83 @@
+{{set . "title" "Galery"}}
+{{template "header.html" .}}
+<div id="main" class="clearfix">
+<div class="topTabs">
+
+            <div id="topTabs-container-home">
+                <div class="topTabs-header clearfix">
+
+                    <div class="secInfo sec-dashboard">
+                        <h1 class="secTitle">Foto</h1>
+                        <span class="secExtra">Jumlah Foto : {{len .foto}}</span>
+                    </div>
+                    <!-- /SecInfo -->
+
+                    <ul class="etabs tabs">
+                        <li class="tab">
+                            <a href="#tab1">
+                                <span class="to-hide">
+										<i class="glyphicon glyphicon-th"></i><br>Galery
+									</span>
+                                <i class="fa icon-hidden fa-picture-o ttip" data-ttip="Galery Foto"></i>
+                            </a>
+                        </li>
+                        <li class="tab">
+                            <a href="#tab2">
+                                <span class="to-hide">
+										<i class="glyphicon glyphicon-upload"></i><br>Upload Foto
+									</span>
+                                <i class="glyphicon glyphicon-upload icon-hidden ttip" data-ttip="Upload Foto"></i>
+                            </a>
+                        </li>
+                        
+                    </ul>
+                    <!-- /tabs -->
+                </div>
+                <!-- /topTabs-header -->
+
+                <div class="topTabsContent">
+                    <div id="tab1">
+                        <div class="row">
+							{{range .foto}}
+							<div class="col-md-4">
+								<img class="img-responsive img-thumbnail" width="100%" src="{{.Dir}}{{.Foto}}" >
+				            </div>
+				            {{end}}
+				                           
+			            </div>
+                    </div>
+                    <div id="tab2">
+                        <div class="row">
+                        	<form action="{{url "Agent.UploadFoto"}}" method="POST" enctype="multipart/form-data">
+							<div class="col-md-4" id="img-upload">
+								<img class="img-responsive img-thumbnail" width="100%" id="blah" >
+								{{with $field := field "foto" .}}
+								<div class="input-group {{$field.ErrorClass}} form-child ">
+									<input class="form-control" type="file" required="true" name="{{$field.Name}}" id="uploader">
+					               	<label for="uploader">Foto Layanan</label>
+					            </div>
+					            {{end}}
+					            {{with $field := field "service.IdService" .}}
+					            <input type="hidden" name="idService" value="{{$field.Value}}">
+					            {{end}}
+					            <div class="input-group form-child ">
+									<input class="form-control" type="submit" value="Upload" id="btn-upload">
+					            </div>
+			            	</div>
+		                    </form>       
+	            		</div>
+                    </div>
+                    
+                </div>
+                <!-- /topTabContent -->
+
+            </div>
+            <!-- /tab-container -->
+
+            <!-- </div> -->
+        </div>
+        <!-- /topTabs -->
+	{{template "flash.html" .}}
+</div>
+
+{{template "footer.html" .}}

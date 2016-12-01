@@ -17,12 +17,12 @@ type AgentTravel struct {
 }
 
 type AgentService struct {
-	IdService int64          `gorm:"primary_key;AUTO_INCREMENT"`
-	IdAgent   int64          `gorm:"column:agent_id;index"`
-	Service   string         `gorm:"column:service;type:varchar(45)"`
-	Kategori  string         `gorm:"column:kategori;type:varchar(45)"`
-	Price     float32        `gorm:"column:price"`
-	Desc      string         `gorm:"column:desc;type:varchar(255)"`
+	IdService int64          `gorm:"primary_key;AUTO_INCREMENT"; json:"id, omitempty"`
+	IdAgent   int64          `gorm:"column:agent_id;index"; json:"idAgent, omitempty"`
+	Service   string         `gorm:"column:service;type:varchar(45)"; json:"service, omitempty"`
+	Kategori  string         `gorm:"column:kategori;type:varchar(45)"; json:"kategori, omitempty"`
+	Price     float32        `gorm:"column:price"; json:"price, omitempty"`
+	Desc      string         `gorm:"column:desc;type:text"; json:"desc, omitempty"`
 	Foto      FotoService    `gorm:"ForeignKey:IdService"`
 	AddOn     []AddOnService `gorm:"ForeignKey:IdService"`
 	Status    bool           `gorm:"column:status;type:bool"`
@@ -36,14 +36,14 @@ type AddOnService struct {
 }
 
 type FotoService struct {
-	IdFoto    int64 `gorm:"primary_key;AUTO_INCREMENT"`
-	Foto      string
-	Width     int
-	Height    int
-	Size      int
-	Format    string
-	IdService int64 `gorm:"column:service_id;index"`
-	Dir       string
+	IdFoto    int64  `gorm:"primary_key;AUTO_INCREMENT"; json:"id, omitempty"`
+	Foto      string `json:"foto, omitempty"`
+	Width     int    `json:"width, omitempty"`
+	Height    int    `json:"height, omitempty"`
+	Size      int    `json:"size, omitempty"`
+	Format    string `json:"format, omitempty"`
+	IdService int64  `gorm:"column:service_id;index"`
+	Dir       string `json:"dir, omitempty"`
 }
 
 var emailreg = regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)

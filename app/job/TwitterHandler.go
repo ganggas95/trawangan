@@ -34,7 +34,7 @@ func (t TwitHandler) GetUrlTwit() (string, *oauth.RequestToken, *oauth.Consumer)
 		})
 
 	c.Debug(true)
-	requestToken, u, err := c.GetRequestTokenAndUrl("https://trawanganserver.herokuapp.com/verifytwit")
+	requestToken, u, err := c.GetRequestTokenAndUrl("https://trawangan.herokuapp.com/verifytwit")
 	if err != nil {
 		log.Fatal(err)
 	}

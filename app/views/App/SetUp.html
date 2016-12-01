@@ -49,6 +49,9 @@
             {{with $field := field "user.TwitId" .}}
             <input type="hidden" name="{{$field.Name}}" value="{{$field.Value}}">
             {{end}}
+            {{with $field := field "code" .}}
+            <input type="hidden" name="{{$field.Name}}" value="{{$field.Value}}">
+            {{end}}
 
         {{if .flash}}
             {{template "flash.html" .}}

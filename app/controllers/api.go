@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"github.com/ganggas95/trawanganserver/app"
-	"github.com/ganggas95/trawanganserver/app/job"
-	"github.com/ganggas95/trawanganserver/app/models"
+	"github.com/ganggas95/trawangan/app"
+	"github.com/ganggas95/trawangan/app/job"
+	"github.com/ganggas95/trawangan/app/models"
 	"github.com/revel/revel"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -56,11 +56,10 @@ func (c Api) AddUser(user models.User, password string) revel.Result {
 	}
 	var token models.UserToken
 	token.AccessToken = tok
-	token.User = user
-	err := app.GORM.Create(&token)
-	err = app.GORM.Create(&user)
-	if err != nil {
-		panic(err.Error)
+	user.TokenUser = token
+	db := app.GORM.Create(&user)
+	if db.Error != nil {
+		revel.INFO.Println(db.GetErrors())
 	}
 	return c.RenderJson(user)
 }

@@ -27,7 +27,7 @@ func ReadHttpBody(response *http.Response) string {
 
 func SendToken(email, token string) error {
 
-	url := "https://trawanganserver.herokuapp.com/verifyaccount?code=" + token
+	url := "https://trawangan.herokuapp.com/verifyaccount?code=" + token
 	isi := "<html><body><h1>Hello World!</h1><a href='" + url + "'>Click Me</a></body></html>"
 	err := Send(email, isi)
 

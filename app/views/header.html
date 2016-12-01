@@ -6,12 +6,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/public/css/bootstrap-3.3.6.min.css">
-     <link rel="stylesheet" href="/public/css/font-awesome-4.0.3/css/font-awesome.min.css">
+     <link rel="stylesheet" href="/public/css/css/font-awesome.min.css">
     <script src="/public/js/jquery-2.2.4.min.js"></script>
     <script src="/public/js/bootstrap-3.3.6.min.js"></script>
      {{if .agent}}
     <link rel="stylesheet" type="text/css" href="/public/css/dashboard.css">
-    <link rel="stylesheet" href="/public/css/jquery-ui.css" />{{else}}
+    <link rel="stylesheet" href="/public/css/jquery-ui.css" />
+    {{else}}
     <link rel="stylesheet" type="text/css" href="/public/css/style.css"> {{end}}
     <link rel="shortcut icon" type="image/png" href="/public/img/logo.png">
     {{range .moreStyles}}
@@ -115,24 +116,52 @@
 
     <div id="sidebar">
         <ul class="mainNav">
-            <li id="dashboard" {{if .dashboard}} class="active" {{end}}>
+            <li id="dashboard">
                 <a href="{{url "Agent.Index"}}" ><i class="glyphicon glyphicon-home"></i><br>Dashboard</a>
             </li>
-            <li id="service" {{if .service}} class="active" {{end}}>
+            <li id="service">
                 <a href="{{url "Agent.ServiceAgent"}}" ><i class="glyphicon glyphicon-wrench"></i><br>Service</a>
             </li>
-            <li id="order"  {{if .order}} class="active" {{end}}>
+            <li id="order">
                 <a href="{{url "Agent.OrderAgent"}}"  ><i class="glyphicon glyphicon-list-alt"></i><br>Order</a>
             </li>
-            <li id="chat"  {{if .chat}} class="active" {{end}}>
+            <li id="chat">
                 <a href="{{url "Agent.ChatAgent"}}"  ><i class="glyphicon glyphicon-comment"></i><br>Chat</a>
                 <span class="badge badge-mNav">4</span>
             </li>
-            <li id="member"  {{if .member}} class="active" {{end}}>
+            <li id="member" >
                 <a href="{{url "Agent.MemberAgent"}}"  ><i class="glyphicon glyphicon-user"></i><br>Member</a>
             </li>
         </ul>
     </div>
+
+    <script type="text/javascript">
+        {{if .dashboard}}
+            $('#dashboard').attr('class', 'active')
+        {{else}}
+            $('#dashboard').attr('class', '')
+        {{end}}
+        {{if .service}}
+            $('#service').attr('class', 'active')
+        {{else}}
+            $('#service').attr('class', '')
+        {{end}}
+        {{if .order}}
+            $('#order').attr('class', 'active')
+        {{else}}
+            $('#order').attr('class', '')
+        {{end}}
+        {{if .chat}}
+            $('#chat').attr('class', 'active')
+        {{else}}
+            $('#chat').attr('class', '')
+        {{end}}
+        {{if .member}}
+            $('#member').attr('class', 'active')
+        {{else}}
+            $('#member').attr('class', '')
+        {{end}}
+    </script>
 
     <!-- /sidebar -->
     {{else}}

@@ -2,7 +2,7 @@ package app
 
 import (
 	"fmt"
-	"github.com/ganggas95/trawanganserver/app/models"
+	"github.com/ganggas95/trawangan/app/models"
 	"github.com/jinzhu/gorm"
 	_ "github.com/lib/pq"
 	"github.com/revel/revel"
@@ -34,10 +34,10 @@ func init() {
 
 func InitDB() {
 	var err error
-	DB_HOST := revel.Config.StringDefault("db.host", "")
 	DB_USER := revel.Config.StringDefault("db.user", "")
 	DB_PASS := revel.Config.StringDefault("db.pass", "")
 	DB_NAME := revel.Config.StringDefault("db.name", "")
+	DB_HOST := revel.Config.StringDefault("db.host", "")
 
 	GORM, err = gorm.Open(revel.Config.StringDefault("db.driver", ""), fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable", DB_HOST, DB_USER, DB_PASS, DB_NAME))
 	if err != nil {

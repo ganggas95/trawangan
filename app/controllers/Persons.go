@@ -3,9 +3,9 @@ package controllers
 import (
 	"fmt"
 
-	"github.com/ganggas95/trawanganserver/app"
-	"github.com/ganggas95/trawanganserver/app/models"
-	"github.com/ganggas95/trawanganserver/app/routes"
+	"github.com/ganggas95/trawangan/app"
+	"github.com/ganggas95/trawangan/app/models"
+	"github.com/ganggas95/trawangan/app/routes"
 	"github.com/revel/revel"
 	"strings"
 	"time"

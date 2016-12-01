@@ -17,7 +17,7 @@ type User struct {
 	TwitId         string      `gorm:"column:twitid"`
 	Verify         bool        `gorm:"column:verify;type:bool"`
 	Agent          AgentTravel `gorm:"ForeignKey:UserId"`
-	IdToken        int64       `gorm:"column:id_token;index"`
+	TokenUser      UserToken   `gorm:"ForeignKey:UserId"`
 	Foto           UserFoto    `gorm:"ForeignKey:UserId"`
 }
 
@@ -25,8 +25,8 @@ type UserToken struct {
 	IdToken     int64  `gorm:"primary_key;AUTO_INCREMENT"`
 	AccessToken string `gorm:"type:varchar(255)"`
 	Expiry      time.Time
-	Status      bool `gorm:"type:bool"`
-	User        User `gorm:"ForeignKey:IdToken"`
+	Used        bool  `gorm:"type:bool"`
+	UserId      int64 `gorm:"column:user_id;index"`
 }
 
 type UserFoto struct {
@@ -36,7 +36,8 @@ type UserFoto struct {
 	Height int
 	Size   int
 	Format string
-	UserId int64 `gorm:"column:user_id;index"`
+	UserId int64  `gorm:"column:user_id;index"`
+	Dir    string `json:"dir, omitempty"`
 }
 
 /*

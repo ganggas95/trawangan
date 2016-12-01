@@ -28,9 +28,8 @@
                     <input type="password" class="form-control" name="{{$field.Name}}" value="" placeholder="Password">          <span class="error">{{$field.Error}}</span>       
                 </div>
                 {{end}}
-                {{if .flash}}
                     {{template "flash.html" .}}
-                {{end}}
+                
                 <input type="submit" class="btn btn-primary btn-md" value="Register">
             </form>
         </div>
@@ -41,7 +40,6 @@
                 <h1 font-color="white">Sign Up</h1>
                 <i>with one of your social profile</i><br>
                 <a href="{{url "App.RegisterWithFacebook"}}"><img src="/public/img/f.png" /></a>
-                <a href="{{url "App.RegisterWithTwit"}}"><img src="/public/img/tw.png"/></a>
                 <a href="{{url "App.RegisterWithGPlus"}}"><img src="/public/img/g.png"/></a>
             </div>
             <center> Have a account ?</center>

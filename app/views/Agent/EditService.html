@@ -1,0 +1,46 @@
+<div class="modal fade" id="modalEditService" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		<form action="{{url "Agent.SetService"}}" method="POST">
+				        <div class="modal-header">
+						    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						    <h4 class="modal-title" id="myModalLabel">Edit Service</h4>
+					    </div>
+						<div class="modal-body">
+							    {{with $field := field ".service.Service" .}}
+							    <div class="input-group {{$field.ErrorClass}} form-child">
+							        <span class="input-group-addon" id="basic-addon1" ><img src="../../../public/img/fullname.png" height="15px" width="15px"></span>
+							        <input type="text" class="form-control" required name="{{$field.Name}}" aria-describedby="basic-addon1" value="{{$field.Value}}" placeholder="Nama Service">
+							    </div>
+							    {{end}}
+							    {{with $field := field ".service.Kategori" .}}
+								<div class="input-group form-child">
+									<span class="input-group-addon" id="basic-addon1" ><img src="../../../public/img/fullname.png" height="15px" width="15px"></span>
+							        <input type="text" class="form-control" name="{{$field.Name}}" required aria-describedby="basic-addon1" value="{{$field.Value}}" placeholder="Nama Kategori">
+							    </div>
+							    {{end}}
+							    {{with $field := field ".service.Price" .}}
+							    <div class="input-group {{$field.ErrorClass}} form-child">
+							        <span class="input-group-addon" id="basic-addon3" ><img src="/public/img/user.png" height="15px" width="15px"></span>
+							   		<input type="number" class="form-control" name="{{$field.Name}}" required aria-describedby="basic-addon3" value="{{$field.Value}}" placeholder="Harga">
+							    </div>
+							    {{end}}
+							    {{with $field := field ".service.Desc" .}}
+							    <div class="input-group {{$field.ErrorClass}} form-child">
+							        <span class="input-group-addon" id="basic-addon2" ><img src="../../../public/img/email.png" height="15px" width="15px"></span>
+							        <textarea class="form-control" name="{{$field.Name}}" aria-describedby="basic-addon2" placeholder="Description">{{$field.Value}}</textarea>
+							    </div>
+							    {{end}}
+							    {{template "flash.html" .}}
+							    <input type="hidden" name="IdService" id="idService">       
+	        	
+						</div>
+						<div class="modal-footer">
+							<a href="{{url "Agent.ServiceAgent"}}"><button type="button" class="btn btn-light-grey">Close</button></a>
+							<input class="btn btn-primary btn-sm" type="submit" value="Save" >
+						</div>
+					</form>
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->		
+</div>
+

@@ -1,0 +1,125 @@
+{{set . "title" "Detail Service"}}
+{{template "header.html" .}}
+<div id="main" class="clearfix">
+	<div class="secInfo">
+		<h1 class="secTitle">{{.service.Service}}</h1>
+		<span class="secExtra">Rp.{{.service.Price}}</span>
+	</div> <!-- /SecInfo -->
+	{{if .chat}}
+	<script>
+		alert({{.chat}})
+	</script>
+	{{end}}
+	<div class="fluid">
+		<div class="widget leftcontent grid12">
+			<div class="widget-header">
+				<h3 class="widget-title">Foto</h3>
+				<div class="widget-controls">
+  					<div class="btn-group xtra"> <!-- btn dd -->
+						<a href="{{url "Agent.GaleryFoto" .service.IdService}}" class="icon-button dropdown-toggle"><i class="glyphicon glyphicon-plus"></i></a>
+                    </div><!-- /btn dd -->
+				</div>
+			</div>
+			<div class="widget-content pad20f">
+				<div class="row">
+					{{range $key, $value:= .foto}}
+					<div class="col-md-4">
+						<a href="#modalFotoPreview" data-img="{{.Dir}}{{.Foto}}" id="img{{$key}}" role="button" data-toggle="modal" data-target="#modalFotoPreview" ><img class="img-responsive img-thumbnail" width="100%" src="{{.Dir}}{{.Foto}}" ></a>
+						<script type="text/javascript">
+							$('#img{{$key}}').on('click', function(){
+							    var img = $(this).data('img');
+							    $('#img-preview').attr('src', img)
+							});
+
+						</script>
+					</div>
+					{{end}}
+					                           
+				</div>
+			</div> <!-- /widget-content -->
+		</div>
+	</div>
+	<div class="fluid">
+		<div class="widget leftcontent grid12">
+			<div class="widget-header">
+				<h3 class="widget-title">Description</h3>
+				<div class="widget-controls">
+					
+  					<div class="btn-group xtra"> <!-- btn dd -->
+  						<a href="#modalEditDesc" data-id="{{.service.IdService}}" data-desc="{{.service.Desc}}" role="button" data-toggle="modal" data-target="#modalEditDesc" id="editDesc" class="icon-button dropdown-toggle"><i class="glyphicon glyphicon-pencil"></i></a> 
+                    </div><!-- /btn dd -->
+				</div>
+			</div>
+			<div class="widget-content pad20f">
+				<p >{{.service.Desc}}</p>
+			</div> <!-- /widget-content -->
+		</div>
+	</div>
+	<div class="fluid">
+		<div class="widget leftcontent grid12">
+			<div class="widget-header">
+				<h3 class="widget-title">Layanan Tambahan</h3>
+			</div>
+			<div class="widget-content pad20f">
+				<section id="sectionAdd">
+		    	<form action="{{url "Agent.SetAddOn"}}" method="POST">
+					<div class="input-group" id="initRow">
+				    	<div class="row" aria-describedby="remove">
+					    	<div class="col-lg-6">
+					    	{{with $field := field "addOn[0].Service" .}}
+						    	<div class="input-group form-child">
+							    	<span class="input-group-addon" id="basic-add1" >Layanan</span>
+							    	<input class="form-control" type="text" required="true" name="{{$field.Name}}" aria-describedby="basic-add1" placeholder="layanan">
+						    	</div>
+					    	{{end}}
+					    	</div>
+					    	<div class="col-lg-6">
+					    	{{with $field := field "addOn[0].Price" .}}
+						    	<div class="input-group form-child">
+							    	<span class="input-group-addon" id="basic-add">Rp.</span>
+							    	<input class="form-control" type="number" required="true" aria-describedby="basic-add" name="{{$field.Name}}" placeholder="Harga">
+						    	</div>
+					    	{{end}}
+					    	<input type="hidden" name="idService" value="{{.service.IdService}}">
+					    	
+					    	</div>
+				    	</div>
+				    	<span class="input-group-addon" id="add"><button type="submit" class="glyphicon glyphicon-plus-sign" style="border:none;background:none;"></button></span>
+				    </div>
+			    </form>
+				</section>
+				{{range .addOn}}	
+				<section>
+					<form action="{{url "Agent.RemoveAddOn"}} " method="POST">
+					<div class="input-group" id="initRow">
+				    	<div class="row" aria-describedby="remove">
+					    	<div class="col-lg-6">
+					    	  	<div class="input-group form-child">
+							    	<span class="input-group-addon" id="basic-add1" >Layanan</span>
+							    	<input class="form-control" type="text" disabled="true" value="{{.Service}}" aria-describedby="basic-add1" placeholder="layanan">
+						    	</div>
+					    	</div>
+					    	<div class="col-lg-6">
+						    	<div class="input-group form-child">
+							    	<span class="input-group-addon" id="basic-add">Rp.</span>
+							    	<input class="form-control" type="number" disabled="true" value="{{.Price}}" aria-describedby="basic-add" placeholder="Harga">
+						    	</div>
+					    	<input type="hidden" name="idService" value="{{.IdService}}">
+					    	<input type="hidden" name="idAddOn" value="{{.IdAddOnService}}">
+					    	
+					    	</div>
+				    	</div>
+				    	<span class="input-group-addon" id="add"><button type="submit" class="glyphicon glyphicon-remove" style="border:none;background:none;"></button></span>
+				    </div>
+				    </form>
+				</section>
+				{{end}}
+			</div>
+		</div>		
+	{{template "Agent/Description.html" .}}
+
+		 {{template "Agent/FotoPreview.html" .}}
+	{{template "flash.html" .}}
+	</div>  <!-- /widget -->
+</div> <!-- /main -->
+{{template "footer.html" .}}
