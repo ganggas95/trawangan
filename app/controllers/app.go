@@ -218,6 +218,53 @@ func (c App) RegisterWithFacebook() revel.Result {
 	url := c.FbHandler.GetUrlFb()
 	return c.Redirect(url)
 }
+func (a App) LoginFb() revel.Result {
+	url := a.FbHandler.GetUrlFb()
+	return a.Redirect(url)
+}
+func (a App) LoginWithFb(code string) revel.Result {
+	user := a.connected()
+	if user == nil {
+		return a.Redirect(routes.App.Index())
+	}
+	for k := range a.Session {
+		delete(a.Session, k)
+	}
+	tkn := a.GetTokenFb(code)
+	res := a.GetResponseFb(tkn)
+	str := job.ReadHttpBody(res)
+	o, _ := jason.NewObjectFromBytes([]byte(str))
+	id, _ := o.GetString("id")
+	res1, _ := fbook.Get("/"+id, fbook.Params{
+		"fields":       "name",
+		"access_token": tkn.AccessToken,
+	})
+	res2, _ := fbook.Get("/"+id, fbook.Params{
+		"fields":       "email",
+		"access_token": tkn.AccessToken,
+	})
+
+	var email string
+	if res2["email"] != nil {
+		email = res2["email"].(string)
+
+	} else {
+		email = ""
+	}
+	username := strings.Split(email, "@")[0]
+	var userfb models.User
+	db := app.GORM.Where("fbid = ? AND email = ? OR username = ?", id, email, username).Find(&userfb)
+	if !db.RecordNotFound() {
+		a.Session["user"] = userfb.Username
+		a.RenderArgs["user"] = userfb
+		return a.Redirect(routes.Persons.List(""))
+	}
+
+	a.Flash.Error("You not registered!")
+	return a.Redirect(routes.App.Index())
+
+}
+
 func (c App) AuthFb(code string) revel.Result {
 	for k := range c.Session {
 		delete(c.Session, k)
@@ -279,6 +326,32 @@ func (c App) RegisterWithGPlus() revel.Result {
 	return c.Redirect(url)
 }
 
+func (a App) LoginGplus() revel.Result {
+	url := a.GetUrlPlus()
+	return a.Redirect(url)
+}
+
+func (a App) LoginWithGplus(code string) revel.Result {
+	tkn := c.GetTokenPlus(code)
+	client := c.GetClientPlus(tkn)
+	plusService := c.GetServicePlus(client)
+	people := c.GetPeoplePlus(plusService)
+	nama := people.Name.FamilyName
+	id := people.Id
+	var usr models.User
+	if len(people.Emails) == 0 {
+		c.Flash.Success("Your account does not have email or not shared to people. Check Your account setting")
+		return c.Redirect(routes.App.Login())
+	}
+	db := app.GORM.Where("gplusid = ? AND email = ?", id, people.Emails[0].Value).Find(&usr)
+	if !db.RecordNotFound() {
+		c.Session["user"] = usr.Username
+		c.RenderArgs["user"] = usr
+		revel.INFO.Println(usr)
+		return c.Redirect(routes.Persons.List(""))
+	}
+}
+
 func (c App) GplusAuth(code string) revel.Result {
 	tkn := c.GetTokenPlus(code)
 	client := c.GetClientPlus(tkn)
@@ -293,8 +366,8 @@ func (c App) GplusAuth(code string) revel.Result {
 	}
 	db := app.GORM.Where("gplusid = ? AND email = ?", id, people.Emails[0].Value).Find(&usr)
 	if !db.RecordNotFound() {
-		//c.Session["user"] = usr.Username
-		//c.RenderArgs["user"] = usr
+		c.Session["user"] = usr.Username
+		c.RenderArgs["user"] = usr
 		revel.INFO.Println(usr)
 		return c.Redirect(routes.Persons.List(""))
 	}
