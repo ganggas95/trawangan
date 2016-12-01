@@ -219,7 +219,7 @@ func (c App) RegisterWithFacebook() revel.Result {
 	return c.Redirect(url)
 }
 func (a App) LoginFb() revel.Result {
-	url := a.FbHandler.GetUrlFb()
+	url := a.FbHandler.GetUrlLoginFb()
 	return a.Redirect(url)
 }
 func (a App) LoginWithFb(code string) revel.Result {
