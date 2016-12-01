@@ -223,10 +223,6 @@ func (a App) LoginFb() revel.Result {
 	return a.Redirect(url)
 }
 func (a App) LoginWithFb(code string) revel.Result {
-	user := a.connected()
-	if user != nil {
-		return a.Redirect(routes.App.Index())
-	}
 	tkn := a.GetTokenFb(code)
 	res := a.GetResponseFb(tkn)
 	str := job.ReadHttpBody(res)
@@ -326,10 +322,6 @@ func (a App) LoginGplus() revel.Result {
 }
 
 func (c App) LoginWithGplus(code string) revel.Result {
-	user := c.connected()
-	if user != nil {
-		return c.Redirect(routes.App.Index())
-	}
 	tkn := c.GetTokenPlus(code)
 	client := c.GetClientPlus(tkn)
 	plusService := c.GetServicePlus(client)
