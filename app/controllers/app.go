@@ -334,12 +334,12 @@ func (c App) LoginWithGplus(code string) revel.Result {
 	plusService := c.GetServicePlus(client)
 	people := c.GetPeoplePlus(plusService)
 	id := people.Id
-	var email string
-	if len(people.Emails) > 0 {
-		email = people.Emails[0].Value
-	}
 	var usr models.User
-	db := app.GORM.Where("gplusid = ? AND email = ?", id, email).Find(&usr)
+	if len(people.Emails) == 0 {
+		c.Flash.Success("Your account does not have email or not shared to people. Check Your account setting")
+		return c.Redirect(routes.App.Login())
+	}
+	db := app.GORM.Where("gplusid = ? AND email = ?", id, people.Emails[0].Value).Find(&usr)
 	if !db.RecordNotFound() {
 		c.Session["user"] = usr.Username
 		c.RenderArgs["user"] = usr
