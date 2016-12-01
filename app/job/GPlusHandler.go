@@ -57,6 +57,18 @@ func (g GplusHandler) GetClientPlus(token *oauth2.Token) *http.Client {
 	client := config.Client(oauth2.NoContext, token)
 	return client
 }
+func (g GplusHandler) GetTokenLoginPlus(code string) *oauth2.Token {
+	token, err := config.Exchange(oauth2.NoContext, code)
+	if err != nil {
+		log.Println(err)
+	}
+	return token
+}
+
+func (g GplusHandler) GetClientLoginPlus(token *oauth2.Token) *http.Client {
+	client := config.Client(oauth2.NoContext, token)
+	return client
+}
 
 func (g GplusHandler) GetServicePlus(client *http.Client) *plus.Service {
 	service, err := plus.New(client)

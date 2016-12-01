@@ -42,6 +42,14 @@ func (fb FbHandler) GetTokenFb(code string) *oauth2.Token {
 	}
 	return tok
 }
+func (fb FbHandler) GetTokenLoginFb(code string) *oauth2.Token {
+	var tok *oauth2.Token
+	tok, err := FACEBOOK2.Exchange(nil, code)
+	if err != nil {
+		panic(err)
+	}
+	return tok
+}
 
 func (fb FbHandler) GetResponseFb(tok *oauth2.Token) *http.Response {
 	response, err := http.Get("https://graph.facebook.com/me?access_token=" + url.QueryEscape(tok.AccessToken))
