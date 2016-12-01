@@ -4,6 +4,7 @@ import (
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/plus/v1"
+	"log"
 	"net/http"
 )
 
@@ -47,7 +48,7 @@ func (g GplusHandler) GetUrlLoginPlus() string {
 func (g GplusHandler) GetTokenPlus(code string) *oauth2.Token {
 	token, err := config.Exchange(oauth2.NoContext, code)
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
 	return token
 }
@@ -60,7 +61,7 @@ func (g GplusHandler) GetClientPlus(token *oauth2.Token) *http.Client {
 func (g GplusHandler) GetServicePlus(client *http.Client) *plus.Service {
 	service, err := plus.New(client)
 	if err != nil {
-		panic(err)
+		log.Println(err)
 	}
 	return service
 }
