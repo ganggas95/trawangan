@@ -221,8 +221,23 @@ func (a Agent) UniqueHandler(email, website string) bool {
 
 }
 
+func (a Agent) GetAgentFromUser(userId int64) *models.AgentTravel {
+	var agent models.AgentTravel
+	db := app.GORM.Where("user_id = ?", userId).Find(&agent)
+	if db.RecordNotFound() {
+		return nil
+	}
+	return &agent
+}
+
 func (a Agent) AddAgentFromUser(travelAgent models.AgentTravel) revel.Result {
 	users := a.connected()
+	if users == nil {
+		return a.Redirect(routes.App.Login())
+	}
+	if agt := a.GetAgentFromUser(users.UID); agt != nil {
+		return a.Redirect(routes.Agent.Index())
+	}
 	agent := a.UniqueHandler(travelAgent.Email, travelAgent.Website)
 	if agent {
 		a.Validation.Keep()
