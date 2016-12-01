@@ -335,7 +335,7 @@ func (c App) LoginWithGplus(code string) revel.Result {
 	people := c.GetPeoplePlus(plusService)
 	id := people.Id
 	var email string
-	if len(people.Emails[0]) > 0 {
+	if len(people.Emails) > 0 {
 		email = people.Emails[0].Value
 	}
 	var usr models.User
