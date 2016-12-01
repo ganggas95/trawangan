@@ -227,9 +227,6 @@ func (a App) LoginWithFb(code string) revel.Result {
 	if user == nil {
 		return a.Redirect(routes.App.Index())
 	}
-	for k := range a.Session {
-		delete(a.Session, k)
-	}
 	tkn := a.GetTokenFb(code)
 	res := a.GetResponseFb(tkn)
 	str := job.ReadHttpBody(res)
@@ -248,9 +245,8 @@ func (a App) LoginWithFb(code string) revel.Result {
 	} else {
 		email = ""
 	}
-	username := strings.Split(email, "@")[0]
 	var userfb models.User
-	db := app.GORM.Where("fbid = ? AND email = ?", id, email, username).Find(&userfb)
+	db := app.GORM.Where("fbid = ? AND email = ?", id, email).Find(&userfb)
 	if !db.RecordNotFound() {
 		a.Session["user"] = userfb.Username
 		a.RenderArgs["user"] = userfb
