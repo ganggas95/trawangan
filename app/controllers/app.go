@@ -274,11 +274,6 @@ func (c App) AuthFb(code string) revel.Result {
 	str := job.ReadHttpBody(response)
 	usr, _ := jason.NewObjectFromBytes([]byte(str))
 	id, _ := usr.GetString("id")
-
-	res1, _ := fbook.Get("/"+id, fbook.Params{
-		"fields":       "name",
-		"access_token": tkn.AccessToken,
-	})
 	res2, _ := fbook.Get("/"+id, fbook.Params{
 		"fields":       "email",
 		"access_token": tkn.AccessToken,
@@ -336,7 +331,6 @@ func (c App) LoginWithGplus(code string) revel.Result {
 	client := c.GetClientPlus(tkn)
 	plusService := c.GetServicePlus(client)
 	people := c.GetPeoplePlus(plusService)
-	nama := people.Name.FamilyName
 	id := people.Id
 	var usr models.User
 	if len(people.Emails) == 0 {
