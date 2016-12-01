@@ -331,7 +331,7 @@ func (a App) LoginGplus() revel.Result {
 	return a.Redirect(url)
 }
 
-func (a App) LoginWithGplus(code string) revel.Result {
+func (c App) LoginWithGplus(code string) revel.Result {
 	tkn := c.GetTokenPlus(code)
 	client := c.GetClientPlus(tkn)
 	plusService := c.GetServicePlus(client)
