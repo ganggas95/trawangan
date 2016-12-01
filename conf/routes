@@ -7,9 +7,9 @@ module:testrunner
 GET     /                               App.Index
 GET     /login                          App.Login
 GET 	/loginfb 						App.LoginFb
-GET 	/loginwithfb 					App.LoginWithFb
+POST 	/loginwithfb 					App.LoginWithFb
 GET 	/logingplus						App.LoginGplus
-GET 	/loginwithgplus 				App.LoginWithGplus
+POST 	/loginwithgplus 				App.LoginWithGplus
 GET     /daftar                         App.Register
 GET     /daftar_with_fb                 App.RegisterWithFacebook
 #GET    /daftar_with_google             App.RegisterWithGoogle
