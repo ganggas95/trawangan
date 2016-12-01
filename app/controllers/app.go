@@ -333,7 +333,6 @@ func (c App) LoginWithGplus(code string) revel.Result {
 	client := c.GetClientPlus(tkn)
 	plusService := c.GetServicePlus(client)
 	people := c.GetPeoplePlus(plusService)
-	nama := people.Name.FamilyName
 	id := people.Id
 	var usr models.User
 	if len(people.Emails) == 0 {
