@@ -26,9 +26,22 @@ var config = &oauth2.Config{
 	// Use "postmessage" for the code-flow for server side apps
 	RedirectURL: "https://trawangan.herokuapp.com/verifygplus",
 }
+var config2 = &oauth2.Config{
+	ClientID:     clientID,
+	ClientSecret: clientSecret,
+	// Scope determines which API calls you are authorized to make
+	Scopes:   []string{plus.UserinfoEmailScope},
+	Endpoint: google.Endpoint,
+	// Use "postmessage" for the code-flow for server side apps
+	RedirectURL: "https://trawangan.herokuapp.com/loginwithgplus",
+}
 
 func (g GplusHandler) GetUrlPlus() string {
 	url := config.AuthCodeURL("", oauth2.AccessTypeOnline)
+	return url
+}
+func (g GplusHandler) GetUrlLoginPlus() string {
+	url := config2.AuthCodeURL("", oauth2.AccessTypeOnline)
 	return url
 }
 func (g GplusHandler) GetTokenPlus(code string) *oauth2.Token {

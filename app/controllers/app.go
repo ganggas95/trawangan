@@ -324,7 +324,7 @@ func (c App) RegisterWithGPlus() revel.Result {
 }
 
 func (a App) LoginGplus() revel.Result {
-	url := a.GetUrlPlus()
+	url := a.GetUrlLoginPlus()
 	return a.Redirect(url)
 }
 
