@@ -326,9 +326,9 @@ func (a App) LoginGplus() revel.Result {
 }
 
 func (c App) LoginWithGplus(code string) revel.Result {
-	user := a.connected()
+	user := c.connected()
 	if user != nil {
-		return a.Redirect(routes.App.Index())
+		return c.Redirect(routes.App.Index())
 	}
 	tkn := c.GetTokenPlus(code)
 	client := c.GetClientPlus(tkn)
