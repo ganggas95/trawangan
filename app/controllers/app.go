@@ -279,7 +279,8 @@ func (c App) AuthFb(code string) revel.Result {
 		email = res2["email"].(string)
 
 	} else {
-		email = ""
+		c.Flash.Error("System not found email in your facebook account. Please setting your account to able other user facebook can see your email")
+		return c.Redirect(routes.App.Index())
 	}
 
 	var userfb models.User
