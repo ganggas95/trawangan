@@ -350,6 +350,8 @@ func (c App) LoginWithGplus(code string) revel.Result {
 		revel.INFO.Println(usr)
 		return c.Redirect(routes.Persons.List(""))
 	}
+	c.Flash.Error("You not registered!")
+	return c.Redirect(routes.App.Index())
 }
 
 func (c App) GplusAuth(code string) revel.Result {
